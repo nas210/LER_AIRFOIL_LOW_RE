@@ -1,8 +1,8 @@
-# LER_AIRFOIL_LOW_RE
+# PARSEC for Airfoils
 
 ## Intro:
 
-In this repo, you will find an airfoil counter finder using PARSEC equations. I wrote this code for a project investigating the effect leading-edge thickness has on LSB size and positioning while holding the forward thickness constant. 
+In this repo, you will find an airfoil counter finder using PARSEC equations. I wrote this code for a project investigating the effect leading-edge thickness has on LSB size and positioning at low reynolds while holding the forward thickness constant. 
 
 ## Background:
 
