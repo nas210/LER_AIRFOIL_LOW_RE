@@ -34,14 +34,16 @@ for r in r_le:
     c_pre = pc.ppcoef(r_le = r, **params_pre, surface='p',**pins_pre)
     c_su = pc.ppcoef(r_le = r, **params_su, surface='s', **pins_su)
 
-    xx_pre = np.linspace(xte,xle,101)
-    yy_pre = pc.evaluate(xx_pre,c_pre)
+    n_points = 200
+    theta = np.linspace(0, np.pi, n_points)
+    x = 0.5 * (1.0 - np.cos(theta))
 
-    xx_su = np.linspace(xle,xte,101)
-    yy_su = pc.evaluate(xx_su, c_su)
+    yy_pre = pc.evaluate(x,c_pre)
+    yy_su = pc.evaluate(x,c_su)
 
-    pre = np.column_stack(xx_pre, yy_pre)
-    su = np.column_stack(xx_su, yy_su)
+
+    pre = np.column_stack(x, yy_pre)
+    su = np.column_stack(x, yy_su)
 
     airfoils[r] = {
         
