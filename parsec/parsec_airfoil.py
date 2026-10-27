@@ -9,33 +9,36 @@ yle = 0
 airfoils = {}
 
 #  x_te, y_te, x_c, y_c, dydx_c, dy2dx2_c, te_ang
-params_su = [xte, yte, 0.29663, 0.06002, 0, -0.4515, -8.27]
-params_pre = [xte, yte, 0.29663, -0.06002, 0, 0.4515, 8.27]
+params_su  = dict(x_te=xte, y_te=yte, x_c=0.29663, y_c= 0.06002, dydx_c=0, dy2dx2_c=-0.4515, te_ang=-8.27)
+params_pre = dict(x_te=xte, y_te=yte, x_c=0.29663, y_c=-0.06002, dydx_c=0, dy2dx2_c= 0.4515, te_ang= 8.27)
 
 r_le = [0.004, 0.008, 0.0158, 0.024]
 
+# pin locations and y-values
+coef_base = pc.pcoef(r_le[3], **params_su, surface= 's')
+
+x_p1 = 0.5
+x_p2 = 0.7
+x_p3 = 0.9
+
+y_p1 = pc.evaluate(coef_base, x_p1)
+y_p2 = pc.evaluate(coef_base, x_p2)
+y_p3 = pc.evaluate(coef_base, x_p3)
+
+pins_pre = dict(x_p1 = x_p1, y_p1 = y_p1,x_p2 = x_p2, y_p2 = y_p2,x_p3 = x_p3, y_p3 = y_p3 )
+pins_su = dict(x_p1 = x_p1, y_p1 = -y_p1,x_p2 = x_p2, y_p2 = -y_p2,x_p3 = x_p3, y_p3 = -y_p3 )
+
+# radii sweep 
 
 for r in r_le:
-    c_pre = pc.pcoef(r_le = r, **params_pre, surface='p')
-    c_su = pc.pcoef(r_le = r, **params_su, surface='s')
+    c_pre = pc.ppcoef(r_le = r, **params_pre, surface='p',**pins_pre)
+    c_su = pc.ppcoef(r_le = r, **params_su, surface='s', **pins_su)
 
     xx_pre = np.linspace(xte,xle,101)
-    yy_pre = (c_pre[0]*xx_pre**(1/2) + 
-          c_pre[1]*xx_pre**(3/2) + 
-          c_pre[2]*xx_pre**(5/2) + 
-          c_pre[3]*xx_pre**(7/2) + 
-          c_pre[4]*xx_pre**(9/2) + 
-          c_pre[5]*xx_pre**(11/2)
-         ) 
+    yy_pre = pc.evaluate(xx_pre,c_pre)
 
     xx_su = np.linspace(xle,xte,101)
-    yy_su = (c_su[0]*xx_su**(1/2) + 
-          c_su[1]*xx_su**(3/2) + 
-          c_su[2]*xx_su**(5/2) + 
-          c_su[3]*xx_su**(7/2) + 
-          c_su[4]*xx_su**(9/2) + 
-          c_su[5]*xx_su**(11/2)
-         )
+    yy_su = pc.evaluate(xx_su, c_su)
 
     pre = np.column_stack(xx_pre, yy_pre)
     su = np.column_stack(xx_su, yy_su)
@@ -45,5 +48,4 @@ for r in r_le:
         'pre' : pre,
         'su' : su,
         'contour' : np.vstack((pre, su[1:]))
-        
         }
