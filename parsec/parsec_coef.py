@@ -4,13 +4,11 @@ from math import tan, sqrt
 import numpy as np
 
 # baseline
-def pcoef(r_le, x_te, y_te, x_c, y_c, dydx_c, dy2dx2_c, te_ang, surface, x_p1 = None, x_p2 = None, x_p3= None, y_p1 = None, y_p2 = None, y_p3 = None):
+def pcoef(r_le, x_te, y_te, x_c, y_c, dydx_c, dy2dx2_c, te_ang, surface):
 
-    # init all coef and if there are pins there are extra
-    if x_p1 is None:
-        coef = np.zeros(6)
-    else:
-        coef = np.zeros(9)
+    # init all coef
+
+    coef = np.zeros(6)
 
     # checks if coef is for suction or pressure surface
     if surface.startswith('p'):
@@ -40,7 +38,7 @@ def pcoef(r_le, x_te, y_te, x_c, y_c, dydx_c, dy2dx2_c, te_ang, surface, x_p1 = 
 
     u = np.linalg.solve(A,B)
 
-    coef[1:6] = u[0:5:0]
+    coef[1:6] = u
 
     return coef
 
@@ -117,3 +115,16 @@ def ppcoef(r_le, x_te, y_te, x_c, y_c, dydx_c, dy2dx2_c, te_ang, surface, pins =
     for co in u:
         coef.append(co)
     return coef
+
+def evaluate(coord, coef):
+    exponents = []
+    result = 0
+
+    for i in range(len(coef)):
+        exponents.append(i+0.5)
+
+    for i in range(len(coef)):
+        p = exponents[i]
+        result += coef[i]*coord**p
+
+    return result
