@@ -9,8 +9,11 @@ yle = 0
 airfoils = {}
 
 #  x_te, y_te, x_c, y_c, dydx_c, dy2dx2_c, te_ang
-params_su  = dict(x_te=xte, y_te=yte, x_c=0.29663, y_c= 0.06002, dydx_c=0, dy2dx2_c=-0.4515, te_ang=-8.27)
-params_pre = dict(x_te=xte, y_te=yte, x_c=0.29663, y_c=-0.06002, dydx_c=0, dy2dx2_c= 0.4515, te_ang= 8.27)
+pins_su  = [(x_p1,  y_p1), (x_p2,  y_p2), (x_p3,  y_p3)]
+pins_pre = [(x_p1, -y_p1), (x_p2, -y_p2), (x_p3, -y_p3)]
+
+c_pre = pc.ppcoef(r_le=r, **params_pre, surface='p', pins=pins_pre)
+c_su  = pc.ppcoef(r_le=r, **params_su,  surface='s', pins=pins_su)
 
 r_le = [0.004, 0.008, 0.0158, 0.024]
 
