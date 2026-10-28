@@ -49,6 +49,8 @@ for r in r_le:
     su = np.column_stack((x, yy_su))
 
     airfoils[r] = {
+        'c_pre': c_pre,
+        'c_su': c_su,
         'pre' : pre,
         'su' : su,
         'contour' : np.vstack((pre[::-1], su[1:]))
