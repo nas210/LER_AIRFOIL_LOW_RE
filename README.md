@@ -21,6 +21,6 @@ PARSEC equations are a common way to describe the top and bottom curves of an ai
 * Y pins (y(x_p) = y_p): (`y_p1`,`y_p2`,`y_p3`)
 
 ## Dependencies
-NumPy: Arrays
-Matplotlib: Plots
-OS: Files
+* NumPy: Arrays
+* Matplotlib: Plots
+* OS: Files
