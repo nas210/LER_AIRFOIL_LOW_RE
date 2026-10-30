@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this repo, you will find an airfoil contour finder using modified PARSEC equations that account for pinned x and y values near the back of the airfoil. The file "before_pins.py" is meant to show the error in the back before pins. I wrote this code for a project investigating the effect leading-edge thickness has on LSB size and positioning at low reynolds while holding the forward thickness constant. 
+In this repo, you will find an airfoil contour finder using modified PARSEC equations that account for pinned x and y values near the back of the airfoil. The file "`before_pins.py`" is meant to show the error in the back before pins. I wrote this code for a project investigating the effect leading-edge thickness has on LSB size and positioning at low reynolds while holding the forward thickness constant. 
 
 ## Background
 
