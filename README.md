@@ -22,3 +22,5 @@ PARSEC equations are a common way to describe the top and bottom curves of an ai
 
 ## Dependencies
 NumPy: Arrays
+Matplotlib: Plots
+OS: Files
