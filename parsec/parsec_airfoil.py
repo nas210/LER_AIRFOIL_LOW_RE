@@ -112,37 +112,52 @@ with open(os.path.join(out_dir, "parsec_log.csv"), "w") as f:
  
 # plot
 base_su = airfoils_p[r_le[4]]['su']
- 
-fig = plt.figure(figsize=(13, 9))
-gs = fig.add_gridspec(2, 2, height_ratios=[1, 1.3])
-ax0 = fig.add_subplot(gs[0, :])       # full contours (top row)
-ax1 = fig.add_subplot(gs[1, 0])       # nose zoom
-ax2 = fig.add_subplot(gs[1, 1])       # difference from baseline
- 
+
+# All contours (r)
+fig0, contour_ax = plt.subplots(figsize=(10, 5))
 for r in r_le:
     cont = airfoils_p[r]['contour']
-    ax0.plot(cont[:, 0], cont[:, 1], label=f"r_le = {r}")
-    ax1.plot(cont[:, 0], cont[:, 1])
-    diff = airfoils_p[r]['su'][:, 1] - base_su[:, 1]
-    ax2.plot(x, diff * 1e3)
- 
-ax0.set_title("airfoils_p")
-ax0.set_aspect('equal')
-ax0.grid(alpha=0.3)
-ax0.legend(ncol=4, loc='upper center', bbox_to_anchor=(0.5, -0.1))
- 
-ax1.set_title("Nose Zoom")
-ax1.set_xlim(0, 0.12)
-ax1.set_ylim(-0.055, 0.055)
-ax1.set_aspect('equal')
-ax1.grid(alpha=0.3)
- 
-ax2.set_title("Error In y-Coordinate Along x")
-ax2.set_xlabel("x/c")
-ax2.set_ylabel("difference (x 1e-3 chord)")
-ax2.axhline(0, color='k', linewidth=0.5)
-ax2.grid(alpha=0.3)
- 
+    contour_ax.plot(cont[:, 0], cont[:, 1], label=f"r_le = {r}")
+
+contour_ax.set_title("Full Contours")
+contour_ax.set_aspect('equal')
+contour_ax.grid(alpha=0.3)
+contour_ax.legend(ncol=4, loc='upper center', bbox_to_anchor=(0.5, -0.15))
 plt.tight_layout()
-plt.savefig(os.path.join(out_dir, "parsec_contours.png"), dpi=130)
-plt.show()
+plt.savefig(os.path.join(out_dir, "full_airfoil.png"), dpi=130)
+plt.close(fig0)
+
+# Nose Zoom
+fig1, nz_ax = plt.subplots(figsize=(8, 6))
+for r in r_le:
+    cont = airfoils_p[r]['contour']
+    nz_ax.plot(cont[:, 0], cont[:, 1], label=f"r_le = {r}")
+
+nz_ax.set_title("Nose Zoom")
+nz_ax.set_xlim(0, 0.12)
+nz_ax.set_ylim(-0.055, 0.055)
+nz_ax.set_aspect('equal')
+nz_ax.grid(alpha=0.3)
+nz_ax.legend(loc='upper right')
+plt.tight_layout()
+plt.savefig(os.path.join(out_dir, "nose_zoom.png"), dpi=130)
+plt.close(fig1)
+
+# error in y
+
+fig_e = plt.figure(figsize=(13, 9))
+yerr_ax = fig_e.add_subplot(111)  
+
+for r in r_le:
+    diff = airfoils_p[r]['su'][:, 1] - base_su[:, 1]
+    yerr_ax.plot(x, diff * 1e3, label=f"r_le = {r}")
+
+yerr_ax.set_title("Error In y-Coordinate Along x With Pins")
+yerr_ax.set_xlabel("x/c")
+yerr_ax.set_ylabel("difference (x 1e-3 chord)")
+yerr_ax.axhline(0, color='k', linewidth=0.5)
+yerr_ax.grid(alpha=0.3)
+yerr_ax.legend(ncol=4, loc='upper center', bbox_to_anchor=(0.5, -0.1))
+
+plt.tight_layout()
+plt.savefig(os.path.join(out_dir, "error_w_pins.png"), dpi=130)
