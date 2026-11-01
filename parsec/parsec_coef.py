@@ -23,7 +23,7 @@ def pcoef(r_le, x_te, y_te, x_c, y_c, dydx_c, dy2dx2_c, te_ang, surface):
     A = np.array([
         [x_te**(3/2), x_te**(5/2), x_te**(7/2), x_te**(9/2), x_te**(11/2)],
         [x_c**(3/2), x_c**(5/2), x_c**(7/2), x_c**(9/2), x_c**(11/2)],
-        [(3/2), (5/2), (7/2), (9/2), (11/2),],
+        [x_te*(3/2), x_te*(5/2), x_te*(7/2), x_te*(9/2), x_te*(11/2),],
         [(3/2)*x_c**0.5, (5/2)*x_c**(3/2), (7/2)*x_c**(5/2), (9/2)*x_c**(7/2), (11/2)*x_c**(9/2)],
         [(3/4)*x_c**(-1/2), (15/4)*x_c**(1/2), (35/4)*x_c**(3/2), (63/4)*x_c**(5/2), (99/4)*x_c**(7/2)]
         ])
@@ -32,7 +32,7 @@ def pcoef(r_le, x_te, y_te, x_c, y_c, dydx_c, dy2dx2_c, te_ang, surface):
     B = np.array([
         y_te - coef[0]*x_te**(1/2),
         y_c - coef[0]*x_c**(1/2),
-        tan(np.radians(te_ang)) - (1/2)*coef[0],
+        tan(np.radians(te_ang)) - (1/2)*coef[0]*x_te,
         dydx_c - (1/2)*coef[0]*x_c**(-1/2),
         dy2dx2_c + (1/4)*coef[0]*x_c**(-3/2)])
 
